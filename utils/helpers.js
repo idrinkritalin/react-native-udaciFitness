@@ -1,3 +1,8 @@
+import React from 'react'
+import { View } from 'react-native'
+import { FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
+import { white } from './colors'
+
 export function getMetricMetaInfo (metric) {
   const info = {
     run: {
@@ -11,7 +16,7 @@ export function getMetricMetaInfo (metric) {
           <View>
             <MaterialIcons
               name='directions-run'
-              color={black}
+              color={'black'}
               size={35}
             />
           </View>
@@ -29,7 +34,7 @@ export function getMetricMetaInfo (metric) {
           <View>
             <MaterialCommunityIcons
               name='bike'
-              color={black}
+              color={'black'}
               size={32}
             />
           </View>
@@ -47,7 +52,7 @@ export function getMetricMetaInfo (metric) {
           <View>
             <MaterialCommunityIcons
               name='swim'
-              color={black}
+              color={'black'}
               size={35}
             />
           </View>
@@ -65,7 +70,7 @@ export function getMetricMetaInfo (metric) {
           <View>
             <FontAwesome
               name='bed'
-              color={black}
+              color={'black'}
               size={30}
             />
           </View>
@@ -83,7 +88,7 @@ export function getMetricMetaInfo (metric) {
           <View>
             <MaterialCommunityIcons
               name='food'
-              color={black}
+              color={'black'}
               size={35}
             />
           </View>
