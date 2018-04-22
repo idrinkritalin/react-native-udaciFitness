@@ -10,6 +10,7 @@ import UdaciStepper from './UdaciStepper'
 import DateHeader from './DateHeader'
 import TextButton from './TextButton'
 import { Ionicons } from '@expo/vector-icons'
+import { submitEntry, removeEntry } from '../utils/api'
 
 export default class AddEntry extends Component {
   state = {
@@ -55,7 +56,6 @@ export default class AddEntry extends Component {
     const entry = this.state
 
     // Update Redux
-
     this.setState(() => ({
       run: 0,
       bike: 0,
@@ -63,11 +63,8 @@ export default class AddEntry extends Component {
       sleep: 0,
       eat: 0
     }))
-
     // Navigate to Home
-
-    // Save to the DB
-
+    submitEntry({ key, entry})
     // Clean local notifications
   }
 
@@ -77,10 +74,8 @@ export default class AddEntry extends Component {
     alert('reset')
 
     // Update Redux
-
     // Navigate to Home
-
-    // Save to the DB
+    removeEntry(key)
   }
 
   render () {
@@ -103,7 +98,6 @@ export default class AddEntry extends Component {
 
     return (
       <View>
-
       <DateHeader date={(new Date()).toLocaleDateString()}/>
       {Object.keys(metaInfo).map((key) => {
         const { getIcon, type, ...rest } = metaInfo[key]
