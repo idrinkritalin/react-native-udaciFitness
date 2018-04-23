@@ -17,11 +17,10 @@ export default function UdaciSlider(props) {
         onValueChange={onChange}
       />
 
-    <View>
-      <Text>{value}</Text>
-      <Text>{unit}</Text>
-    </View>
-
+      <View>
+        <Text>{value}</Text>
+        <Text>{unit}</Text>
+      </View>
     </View>
   )
 }

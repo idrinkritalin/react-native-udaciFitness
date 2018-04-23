@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import {
   Text,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform,
+  Stylesheet
 } from 'react-native'
 import { getMetricMetaInfo, timeToString, getDailyReminderValue } from '../utils/helpers'
 import UdaciSlider from './UdaciSlider'
