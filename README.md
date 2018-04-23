@@ -4,3 +4,5 @@ This project was bootstrapped with [Create React Native App](https://github.com/
 
 * react-native - https://facebook.github.io/react-native
 * react-native-vector-icons - https://github.com/oblador/react-native-vector-icons
+* react-redux - https://github.com/reactjs/react-redux
+* redux - https://redux.js.org/
