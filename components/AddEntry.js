@@ -1,10 +1,5 @@
 import React, { Component } from 'react'
-import {
-  Text,
-  View,
-  StyleSheet,
-  Platform
-} from 'react-native'
+import { Text, View, StyleSheet, Platform } from 'react-native'
 import { getMetricMetaInfo, timeToString, getDailyReminderValue } from '../utils/helpers'
 import UdaciSlider from './UdaciSlider'
 import UdaciStepper from './UdaciStepper'
@@ -149,11 +144,12 @@ const styles = StyleSheet.create({
   },
 })
 
-function mapStateToProps (state) {
+function mapStateToProps (state, entries) {
   const key = timeToString()
 
   return {
-    alreadyLogged: state[key] && typeof state[key].today === 'underfined'
+    alreadyLogged: state[key] && typeof state[key].today === 'underfined',
+    entries
   }
 }
 
