@@ -2,29 +2,25 @@ import React, { Component } from 'react'
 import {
   Text,
   View,
-  TouchableOpacity,
-  Platform,
-  Stylesheet
+  StyleSheet,
+  Platform
 } from 'react-native'
 import { getMetricMetaInfo, timeToString, getDailyReminderValue } from '../utils/helpers'
 import UdaciSlider from './UdaciSlider'
 import UdaciStepper from './UdaciStepper'
 import DateHeader from './DateHeader'
-import TextButton from './TextButton'
+import TextBtn from './TextBtn'
+import SubmitBtn from './SubmitBtn'
 import { Ionicons } from '@expo/vector-icons'
 import { submitEntry, removeEntry } from '../utils/api'
 import { connect } from 'react-redux'
 import { addEntry } from '../actions'
+import { white, purple } from '../utils/colors'
 
 class AddEntry extends Component {
-  state = {
-    run: 0,
-    bike: 0,
-    swim: 0,
-    sleep: 0,
-    eat: 0
-  }
+  state = { run: 0, bike: 0, swim: 0, sleep: 0, eat: 0 }
 
+  // INCREMENT METHOD
   increment = (metric) => {
       const { max, step } = getMetricMetaInfo(metric)
 
@@ -38,6 +34,7 @@ class AddEntry extends Component {
     })
   }
 
+  // DECREMENT METHOD
   decrement = (metric) => {
       this.setState((state) => {
         const count = state[metric] - getMetricMetaInfo(metric).step
@@ -49,12 +46,14 @@ class AddEntry extends Component {
     })
   }
 
+  // SLIDE METHOD
   slide = (metric, value) => {
       this.setState(() => ({
         [metric]: value}
       ))
   }
 
+  // SUBMIT METHOD
   submit = () => {
     const key = timeToString()
     const entry = this.state
@@ -63,17 +62,12 @@ class AddEntry extends Component {
       [key]: entry
     }))
 
-    this.setState(() => ({
-      run: 0,
-      bike: 0,
-      swim: 0,
-      sleep: 0,
-      eat: 0
-    }))
+    this.setState(() => ({ run: 0, bike: 0, swim: 0, sleep: 0, eat: 0 }))
 
     submitEntry({ key, entry })
   }
 
+  // RESET METHOD
   reset = () => {
     const key = timeToString()
 
@@ -86,56 +80,74 @@ class AddEntry extends Component {
 
   render () {
     const metaInfo = getMetricMetaInfo()
+    console.disableYellowBox = true
 
-    if (this.props.alreadyLogged) {
+    if (this.props.alreadyLogged === false) {
       return (
-        <View>
+        <View style={styles.center}>
           <Ionicons
-            name='ios-happy-outline'
+            name={Platform.OS === 'ios' ? 'ios-happy-outline' : 'md-happy'}
             size={100}
           />
         <Text>You already logged your information for today</Text>
-        <TextButton onPress={this.reset}>
-          Reset
-        </TextButton>
+        <TextBtn style={{ padding: 10 }} onPress={this.reset}>Reset</TextBtn>
         </View>
       )
     }
 
     return (
-      <View>
-      <DateHeader date={(new Date()).toLocaleDateString()}/>
-      {Object.keys(metaInfo).map((key) => {
-        const { getIcon, type, ...rest } = metaInfo[key]
-        const value = this.state[key]
+      <View style={styles.container}>
+        <DateHeader date={(new Date()).toLocaleDateString()}/>
+        {Object.keys(metaInfo).map((key) => {
+          const { getIcon, type, ...rest } = metaInfo[key]
+          const value = this.state[key]
 
-        return (
-          <View key={key}>
-            {getIcon()}
-            {type === 'slider'
-              ? <UdaciSlider
-                  value={value}
-                  onChange={(value) => this.slide(key, value)}
-                  {...rest}
-                />
-              : <UdaciStepper
-                  value={value}
-                  onIncrement={(value) => this.increment(key)}
-                  onDecrement={(value) => this.decrement(key)}
-                  {...rest}
-                />
-            }
-          </View>
-        )
-      })}
+          return (
+            <View style={styles.row} key={key}>
+              {getIcon()}
+              {type === 'slider'
+                ? <UdaciSlider
+                    value={value}
+                    onChange={(value) => this.slide(key, value)}
+                    {...rest}
+                  />
+                : <UdaciStepper
+                    value={value}
+                    onIncrement={(value) => this.increment(key)}
+                    onDecrement={(value) => this.decrement(key)}
+                    {...rest}
+                  />
+              }
+            </View>
+          )
+        })}
 
-      <TextButton onPress={this.submit}>
-        SUBMIT
-      </TextButton>
+        <SubmitBtn onPress={this.submit}>SUBMIT</SubmitBtn>
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 40,
+    backgroundColor: white
+  },
+  row: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+  },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 30,
+    marginRight: 30,
+  },
+})
 
 function mapStateToProps (state) {
   const key = timeToString()
