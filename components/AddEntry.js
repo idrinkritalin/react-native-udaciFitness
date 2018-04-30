@@ -11,11 +11,11 @@ import { submitEntry, removeEntry } from '../utils/api'
 import { connect } from 'react-redux'
 import { addEntry } from '../actions'
 import { white, purple } from '../utils/colors'
+import { NavigationActions } from 'react-navigation'
 
 class AddEntry extends Component {
   state = { run: 0, bike: 0, swim: 0, sleep: 0, eat: 0 }
 
-  // INCREMENT METHOD
   increment = (metric) => {
       const { max, step } = getMetricMetaInfo(metric)
 
@@ -29,7 +29,6 @@ class AddEntry extends Component {
     })
   }
 
-  // DECREMENT METHOD
   decrement = (metric) => {
       this.setState((state) => {
         const count = state[metric] - getMetricMetaInfo(metric).step
@@ -41,14 +40,12 @@ class AddEntry extends Component {
     })
   }
 
-  // SLIDE METHOD
   slide = (metric, value) => {
       this.setState(() => ({
         [metric]: value}
       ))
   }
 
-  // SUBMIT METHOD
   submit = () => {
     const key = timeToString()
     const entry = this.state
@@ -57,12 +54,13 @@ class AddEntry extends Component {
       [key]: entry
     }))
 
+    submitEntry({ key, entry })
+
     this.setState(() => ({ run: 0, bike: 0, swim: 0, sleep: 0, eat: 0 }))
 
-    submitEntry({ key, entry })
+    this.toHome()
   }
 
-  // RESET METHOD
   reset = () => {
     const key = timeToString()
 
@@ -71,13 +69,21 @@ class AddEntry extends Component {
     }))
 
     removeEntry(key)
+
+    this.toHome()
+  }
+
+  toHome = () => {
+    this.props.navigation.dispatch(NavigationActions.back({
+      key: 'AddEntry'
+    }))
   }
 
   render () {
     const metaInfo = getMetricMetaInfo()
     console.disableYellowBox = true
 
-    if (this.props.alreadyLogged === false) {
+    if (this.props.alreadyLogged) {
       return (
         <View style={styles.center}>
           <Ionicons

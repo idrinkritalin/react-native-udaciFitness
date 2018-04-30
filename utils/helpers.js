@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native'
 import { FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { white, red, orange, blue, green, pink } from './colors'
 
-export function getMetricMetaInfo (metric) {
+export function getMetricMetaInfo(metric) {
   const info = {
     run: {
       displayName: 'Run',
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   }
 })
 
-export function isBetween (num, x, y) {
+export function isBetween(num, x, y) {
   if (num >= x && num <= y) {
     return true
   }
@@ -122,7 +122,7 @@ export function isBetween (num, x, y) {
   return false
 }
 
-export function calculateDirection (heading) {
+export function calculateDirection(heading) {
   let direction = ''
 
   if (isBetween(heading, 0, 22.5)) {
@@ -157,7 +157,7 @@ export function timeToString (time = Date.now()) {
 }
 
 export function getDailyReminderValue(){
-  return (
+  return {
     today: "Don't forget to log your data today!"
-  )
+  }
 }
