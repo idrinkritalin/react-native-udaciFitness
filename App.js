@@ -11,6 +11,7 @@ import reducer from './reducers'
 import { TabNavigator, StackNavigator, DrawerNavigator } from 'react-navigation'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { white, purple } from './utils/colors'
+import { setLocalNotification } from './utils/helpers'
 
 const logger = store => next => action => {
   console.group(action.type)
@@ -84,6 +85,10 @@ const MainNavigator = StackNavigator({
 })
 
 export default class App extends Component {
+  componentDidMount () {
+    setLocalNotification()
+  }
+
   render() {
     return (
       <Provider store={store}>
